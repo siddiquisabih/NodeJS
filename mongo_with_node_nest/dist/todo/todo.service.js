@@ -23,10 +23,18 @@ let TodoService = class TodoService {
     }
     async createNewTodo(title) {
         const newUser = new this.todoModel({ title });
-        return newUser.save();
+        return await newUser.save();
     }
     allTodosList() {
         return this.todoModel.find().exec();
+    }
+    async getTodoById(id) {
+        const newUser = await this.todoModel.findById(id);
+        return newUser;
+    }
+    async updateTodo(updateData) {
+        const updatedRecord = await this.todoModel.findByIdAndUpdate(updateData?.id, { title: updateData?.title }, { new: true });
+        return updatedRecord;
     }
 };
 exports.TodoService = TodoService;

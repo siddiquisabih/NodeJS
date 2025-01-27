@@ -1,5 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TodoService } from './todo.service';
+import { UpdateTodoDto } from './dto/todoDto';
 
 @Controller('todo')
 export class TodoController {
@@ -11,16 +12,21 @@ export class TodoController {
     }
 
     @Get(':id')
-    getTodoById(@Param("id") id: string) {
-        return '1 todo'
+    async getTodoById(@Param("id") id: string) {
+        return await this.todoService.getTodoById(id)
     }
 
     @Post()
-    createTodo(@Body('title') title: string) {
+    async createTodo(@Body('title') title: string) {
         if (!title) {
             throw new BadRequestException('Invalid Title Value');
         }
-        return this.todoService.createNewTodo(title)
+        return await this.todoService.createNewTodo(title)
+    }
+
+    @Post('edit')
+    async updatedTodo(@Body() UpdateTodoDto: UpdateTodoDto) {
+        return await this.todoService.updateTodo(UpdateTodoDto)
     }
 
 }

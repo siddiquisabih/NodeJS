@@ -18,7 +18,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb://192.168.150.113/todo'),
+            mongoose_1.MongooseModule.forRoot('mongodb://192.168.150.106/todo'),
             todo_module_1.TodoModule,
         ],
         controllers: [app_controller_1.AppController],

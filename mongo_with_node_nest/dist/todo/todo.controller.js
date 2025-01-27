@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TodoController = void 0;
 const common_1 = require("@nestjs/common");
 const todo_service_1 = require("./todo.service");
+const todoDto_1 = require("./dto/todoDto");
 let TodoController = class TodoController {
     constructor(todoService) {
         this.todoService = todoService;
@@ -22,14 +23,17 @@ let TodoController = class TodoController {
     getAllTodos() {
         return this.todoService.allTodosList();
     }
-    getTodoById(id) {
-        return '1 todo';
+    async getTodoById(id) {
+        return await this.todoService.getTodoById(id);
     }
-    createTodo(title) {
+    async createTodo(title) {
         if (!title) {
             throw new common_1.BadRequestException('Invalid Title Value');
         }
-        return this.todoService.createNewTodo(title);
+        return await this.todoService.createNewTodo(title);
+    }
+    async updatedTodo(UpdateTodoDto) {
+        return await this.todoService.updateTodo(UpdateTodoDto);
     }
 };
 exports.TodoController = TodoController;
@@ -44,15 +48,22 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TodoController.prototype, "getTodoById", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)('title')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TodoController.prototype, "createTodo", null);
+__decorate([
+    (0, common_1.Post)('edit'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [todoDto_1.UpdateTodoDto]),
+    __metadata("design:returntype", Promise)
+], TodoController.prototype, "updatedTodo", null);
 exports.TodoController = TodoController = __decorate([
     (0, common_1.Controller)('todo'),
     __metadata("design:paramtypes", [todo_service_1.TodoService])
